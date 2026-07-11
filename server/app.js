@@ -3,6 +3,7 @@ const app = exppress();
 const cors = require("cors");
 
 const POSTS = [];
+const delay = 4; // seconds
 const start = 1;
 const end = 1_000;
 
@@ -23,7 +24,9 @@ for (let i = start; i <= end; i++) {
 console.log("POSTS object is ready :)");
 
 app.get("/api/posts", (req, res) => {
-  res.json(POSTS);
+  setTimeout(() => {
+    res.json(POSTS);
+  }, delay * 1000);
 });
 
 app.listen(3000, () => {
