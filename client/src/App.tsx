@@ -4,15 +4,15 @@ import Posts from "./components/Posts";
 import Header from "./components/Header";
 import LoadingSpin from "./components/LoadingSpin";
 
-const getData = () => {
-  return fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}`);
+const getData = (start: number) => {
+  return fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}&start=${start}`);
 };
 
 export default function App() {
   let [posts, setPosts] = useState<postsData | null>(null);
 
   useEffect(() => {
-    getData()
+    getData(posts?.length || 0)
       .then((data) => {
         return data.json();
       })

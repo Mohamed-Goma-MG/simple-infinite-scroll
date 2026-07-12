@@ -24,8 +24,10 @@ for (let i = start; i <= end; i++) {
 console.log("POSTS object is ready :)");
 
 app.get("/api/posts", (req, res) => {
+  const start = req.query.start;
+  console.log("page start:", start);
   setTimeout(() => {
-    res.json(POSTS);
+    res.json(POSTS.slice(start, start + req.query.limit));
   }, delay * 1000);
 });
 
