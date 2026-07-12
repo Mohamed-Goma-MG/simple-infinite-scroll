@@ -1,8 +1,9 @@
 import { API_BASE, API_POSTS, PARAM_LIMIT, type postsData } from "./global";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Posts from "./components/Posts";
 import Header from "./components/Header";
 import LoadingSpin from "./components/LoadingSpin";
+import LoadMore from "./components/LoadMore";
 
 const getData = (start: number) => {
   return fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}&start=${start}`);
@@ -10,6 +11,7 @@ const getData = (start: number) => {
 
 export default function App() {
   let [posts, setPosts] = useState<postsData | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     getData(posts?.length || 0)
@@ -25,7 +27,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="content h-full overflow-y-auto">
+      <div className="content h-full overflow-y-auto" ref={contentRef}>
         {posts ? (
           <Posts posts={posts} />
         ) : (
@@ -35,6 +37,7 @@ export default function App() {
           </>
         )}
       </div>
+      <LoadMore contentRef={contentRef} />
     </>
   );
 }
