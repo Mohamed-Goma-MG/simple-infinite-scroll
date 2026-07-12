@@ -3,7 +3,7 @@ const app = exppress();
 const cors = require("cors");
 
 const POSTS = [];
-const delay = 4; // seconds
+const delay = 2; // seconds
 const start = 1;
 const end = 1_000;
 
