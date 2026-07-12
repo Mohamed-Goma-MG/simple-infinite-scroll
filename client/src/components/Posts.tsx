@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { postsData, postProps } from "../global";
 import kBased from "../utils/kBased";
 
@@ -20,9 +21,9 @@ function Post({ data }: { data: postProps }) {
         </h3>
         <div className="views text-[#666] text-sm">{kBased(data.views)}</div>
       </div>
-      <div className="desc text-[#444] font-normal indent-3 px-4 mt-3 mb-4">
-        {data.desc}
-      </div>
+
+      <PostDesc desc={data.desc} />
+
       <div className="footer flex justify-between">
         <button className="likes w-[150px] py-2 bg-blue-300/70 rounded-2xl shadow shadow-blue-400">
           {kBased(data.likes)} likes
@@ -32,5 +33,30 @@ function Post({ data }: { data: postProps }) {
         </button>
       </div>
     </div>
+  );
+}
+
+function PostDesc({ desc }: { desc: string }) {
+  const [showMore, setShowMore] = useState<true | false>(false);
+
+  function handleShowMore() {
+    setShowMore((s) => !s);
+  }
+  return (
+    <>
+      <div
+        className={`text-[#444] font-normal indent-3 px-4 mt-3 mb-4 ${!showMore ? "" : ""}`}
+      >
+        <p className="overflow-hidden text-ellipsis">
+          {!showMore ? desc.slice(0, 100) + "..." : desc}
+          <button
+            className="text-sm text-[#666] hover:text-[#333] hover:underline float-right cursor-pointer"
+            onClick={handleShowMore}
+          >
+            {!showMore ? "show more" : "show less"}
+          </button>
+        </p>
+      </div>
+    </>
   );
 }
