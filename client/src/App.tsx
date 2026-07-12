@@ -1,14 +1,18 @@
-import type { postsData } from "./global";
+import { API_BASE, API_POSTS, PARAM_LIMIT, type postsData } from "./global";
 import { useEffect, useState } from "react";
 import Posts from "./components/Posts";
 import Header from "./components/Header";
 import LoadingSpin from "./components/LoadingSpin";
 
+const getData = () => {
+  return fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}`);
+};
+
 export default function App() {
   let [posts, setPosts] = useState<postsData | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/posts")
+    getData()
       .then((data) => {
         return data.json();
       })
