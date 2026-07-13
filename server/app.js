@@ -27,7 +27,7 @@ app.get("/api/posts", (req, res) => {
   const start = req.query.start;
   console.log("page start:", start);
   setTimeout(() => {
-    res.json(POSTS.slice(start, start + req.query.limit));
+    res.json(POSTS.slice(start, +start + +req.query.limit));
   }, delay * 1000);
 });
 
