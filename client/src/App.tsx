@@ -1,27 +1,38 @@
 import { API_BASE, API_POSTS, PARAM_LIMIT, type postsData } from "./global";
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Posts from "./components/Posts";
 import Header from "./components/Header";
 import LoadingSpin from "./components/LoadingSpin";
 import LoadMore from "./components/LoadMore";
 
-const getData = (start: number) => {
-  return fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}&start=${start}`);
-};
-
 export default function App() {
   let [posts, setPosts] = useState<postsData | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    getData(posts?.length || 0)
+  const getData = useCallback((posts: postsData | null) => {
+    const start = !posts ? 0 : posts.length;
+    console.log("posts length:", posts?.length, "the start is", start);
+    fetch(`${API_BASE}${API_POSTS}?${PARAM_LIMIT}&start=${start}`)
       .then((data) => {
         return data.json();
       })
       .then((result) => {
-        console.log(result);
-        setPosts(result);
+        setPosts(() => {
+          const currData = posts || [];
+          return [...currData, ...result];
+        });
       });
+  }, []);
+
+  useEffect(() => {
+    getData(posts);
   }, []);
 
   return (
@@ -37,7 +48,7 @@ export default function App() {
           </>
         )}
       </div>
-      <LoadMore contentRef={contentRef} />
+      <LoadMore contentRef={contentRef} handleClick={() => getData(posts)} />
     </>
   );
 }

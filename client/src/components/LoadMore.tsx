@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState, type RefObject } from "react";
 
 export default function LoadMore({
   contentRef,
+  handleClick,
 }: {
   contentRef: RefObject<HTMLDivElement | null>;
+  handleClick: () => void;
 }) {
   const [show, setShow] = useState<true | false>(false);
   const margin = useMemo(() => 150, []);
@@ -32,9 +34,17 @@ export default function LoadMore({
     return () => removeEventListener("scroll", scrolling);
   }, []);
 
+  function onClickHandler() {
+    handleClick();
+    setShow(false);
+  }
+
   return (
     show && (
-      <button className="rounded-lg border border-gray-400 bg-blue-200 fixed bottom-3 left-1/2 -translate-x-1/2 px-3 py-2 z-10">
+      <button
+        className="rounded-lg border border-gray-400 bg-blue-200 fixed bottom-3 left-1/2 -translate-x-1/2 px-3 py-2 z-10 cursor-pointer"
+        onClick={onClickHandler}
+      >
         show more
       </button>
     )
