@@ -3,7 +3,6 @@ const app = exppress();
 const cors = require("cors");
 
 const POSTS = [];
-const delay = 2; // seconds
 const start = 1;
 const end = 1_000;
 
@@ -26,9 +25,7 @@ console.log("POSTS object is ready :)");
 app.get("/api/posts", (req, res) => {
   const start = req.query.start;
   console.log("page start:", start);
-  setTimeout(() => {
-    res.json(POSTS.slice(start, +start + +req.query.limit));
-  }, delay * 1000);
+  res.json(POSTS.slice(start, +start + +req.query.limit));
 });
 
 app.listen(3000, () => {
