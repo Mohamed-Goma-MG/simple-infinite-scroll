@@ -1,12 +1,5 @@
 import { API_BASE, API_POSTS, PARAM_LIMIT, type postsData } from "./global";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Posts from "./components/Posts";
 import Header from "./components/Header";
 import LoadingSpin from "./components/LoadingSpin";
